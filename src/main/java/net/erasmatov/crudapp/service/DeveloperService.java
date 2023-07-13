@@ -2,12 +2,12 @@ package net.erasmatov.crudapp.service;
 
 import net.erasmatov.crudapp.model.Developer;
 import net.erasmatov.crudapp.repository.DeveloperRepository;
-import net.erasmatov.crudapp.repository.jdbc.JdbcDeveloperRepositoryImpl;
+import net.erasmatov.crudapp.repository.hibernate.HibernateDeveloperRepositoryImpl;
 
 import java.util.List;
 
 public class DeveloperService {
-    DeveloperRepository developerRepository = new JdbcDeveloperRepositoryImpl();
+    DeveloperRepository developerRepository = new HibernateDeveloperRepositoryImpl();
 
     public List<Developer> getAllDevelopers() {
         return developerRepository.getAll();

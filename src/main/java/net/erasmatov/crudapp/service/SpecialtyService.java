@@ -2,12 +2,12 @@ package net.erasmatov.crudapp.service;
 
 import net.erasmatov.crudapp.model.Specialty;
 import net.erasmatov.crudapp.repository.SpecialtyRepository;
-import net.erasmatov.crudapp.repository.jdbc.JdbcSpecialtyRepositoryImpl;
+import net.erasmatov.crudapp.repository.hibernate.HibernateSpecialtyRepositoryImpl;
 
 import java.util.List;
 
 public class SpecialtyService {
-    SpecialtyRepository specialtyRepository = new JdbcSpecialtyRepositoryImpl();
+    SpecialtyRepository specialtyRepository = new HibernateSpecialtyRepositoryImpl();
 
     public List<Specialty> getSpecialties() {
         return specialtyRepository.getAll();

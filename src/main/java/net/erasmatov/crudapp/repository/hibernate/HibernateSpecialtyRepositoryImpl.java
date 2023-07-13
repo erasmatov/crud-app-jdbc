@@ -1,33 +1,33 @@
-package net.erasmatov.crudapp.repository.jdbc;
+package net.erasmatov.crudapp.repository.hibernate;
 
-import net.erasmatov.crudapp.model.Skill;
+import net.erasmatov.crudapp.model.Specialty;
 import net.erasmatov.crudapp.model.Status;
-import net.erasmatov.crudapp.repository.SkillRepository;
+import net.erasmatov.crudapp.repository.SpecialtyRepository;
 import net.erasmatov.crudapp.utils.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import java.util.List;
 
-public class JdbcSkillRepositoryImpl implements SkillRepository {
+public class HibernateSpecialtyRepositoryImpl implements SpecialtyRepository {
 
     private Transaction transaction = null;
 
     @Override
-    public List<Skill> getAll() {
+    public List<Specialty> getAll() {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Skill", Skill.class).list();
+            return session.createQuery("from Specialty", Specialty.class).list();
         }
     }
 
 
     @Override
-    public Skill getById(Integer id) {
-        Skill skill = null;
+    public Specialty getById(Integer id) {
+        Specialty specialty = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            skill = session.get(Skill.class, id);
+            specialty = session.get(Specialty.class, id);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -36,7 +36,7 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
             e.printStackTrace();
         }
 
-        return skill;
+        return specialty;
     }
 
 
@@ -45,8 +45,8 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            Skill skill = session.get(Skill.class, id);
-            skill.setStatus(Status.DELETED);
+            Specialty specialty = session.get(Specialty.class, id);
+            specialty.setStatus(Status.DELETED);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -58,11 +58,11 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 
 
     @Override
-    public Skill save(Skill skill) {
+    public Specialty save(Specialty specialty) {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.persist(skill);
+            session.persist(specialty);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -70,16 +70,16 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
             }
             e.printStackTrace();
         }
-        return skill;
+        return specialty;
     }
 
 
     @Override
-    public Skill update(Skill skill) {
+    public Specialty update(Specialty specialty) {
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.saveOrUpdate(skill);
+            session.update(specialty);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -87,7 +87,7 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
             }
             e.printStackTrace();
         }
-        return skill;
+        return specialty;
     }
 
 }

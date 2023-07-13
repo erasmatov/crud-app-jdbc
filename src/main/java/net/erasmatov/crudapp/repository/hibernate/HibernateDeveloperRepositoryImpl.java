@@ -1,4 +1,4 @@
-package net.erasmatov.crudapp.repository.jdbc;
+package net.erasmatov.crudapp.repository.hibernate;
 
 import net.erasmatov.crudapp.model.Developer;
 import net.erasmatov.crudapp.model.Skill;
@@ -19,7 +19,7 @@ TODO:
 */
 
 
-public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
+public class HibernateDeveloperRepositoryImpl implements DeveloperRepository {
 
     Transaction transaction = null;
 
