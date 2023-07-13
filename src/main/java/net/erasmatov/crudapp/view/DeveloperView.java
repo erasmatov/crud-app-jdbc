@@ -8,9 +8,7 @@ import net.erasmatov.crudapp.model.Skill;
 import net.erasmatov.crudapp.model.Specialty;
 import net.erasmatov.crudapp.model.Status;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class DeveloperView {
     private final DeveloperController developerController = new DeveloperController();
@@ -47,7 +45,7 @@ public class DeveloperView {
                     System.out.println();
                     showSkillsForDeveloper();
 
-                    List<Skill> skills = setSkillsForDeveloper();
+                    Set<Skill> skills = setSkillsForDeveloper();
 
                     showSpecialtiesForDeveloper();
                     System.out.print("Select Specialty by id > ");
@@ -91,7 +89,7 @@ public class DeveloperView {
                     System.out.println();
                     showSkillsForDeveloper();
 
-                    List<Skill> updateSkills = setSkillsForDeveloper();
+                    Set<Skill> updateSkills = setSkillsForDeveloper();
 
                     showSpecialtiesForDeveloper();
                     System.out.print("Select Specialty by id > ");
@@ -150,8 +148,8 @@ public class DeveloperView {
         System.exit(0);
     }
 
-    private List<Skill> setSkillsForDeveloper() {
-        List<Skill> skills = new ArrayList<>();
+    private Set<Skill> setSkillsForDeveloper() {
+        Set<Skill> skills = new HashSet<>();
         while (true) {
             if (!skills.isEmpty()) {
                 System.out.println("\n" + skills);

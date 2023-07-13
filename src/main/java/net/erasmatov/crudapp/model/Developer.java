@@ -1,21 +1,37 @@
 package net.erasmatov.crudapp.model;
 
-import java.util.List;
-import java.util.Objects;
+import jakarta.persistence.*;
 
+import java.util.Objects;
+import java.util.Set;
+
+@Entity
+@Table(name = "developers")
 public class Developer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "first_name")
     private String firstName;
+    @Column(name = "last_name")
     private String lastName;
-    private List<Skill> skills;
+    @ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
+    @JoinTable(name = "developers_skills",
+            joinColumns = {@JoinColumn(name = "developer_id")},
+            inverseJoinColumns = {@JoinColumn(name = "skill_id")})
+    private Set<Skill> skills;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "specialty_id")
     private Specialty specialty;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private Status status;
+
 
     public Developer() {
     }
 
-    public Developer(Integer id, String firstName, String lastName, List<Skill> skills, Specialty specialty, Status status) {
-        this.id = id;
+    public Developer(String firstName, String lastName, Set<Skill> skills, Specialty specialty, Status status) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.skills = skills;
@@ -47,11 +63,11 @@ public class Developer {
         this.lastName = lastName;
     }
 
-    public List<Skill> getSkills() {
+    public Set<Skill> getSkills() {
         return skills;
     }
 
-    public void setSkills(List<Skill> skills) {
+    public void setSkills(Set<Skill> skills) {
         this.skills = skills;
     }
 

@@ -1,15 +1,24 @@
 package net.erasmatov.crudapp.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "skills")
 public class Skill {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private Status status;
+
 
     public Skill() {
     }
 
-    public Skill(Integer id, String name, Status status) {
-        this.id = id;
+    public Skill(String name, Status status) {
         this.name = name;
         this.status = status;
     }
