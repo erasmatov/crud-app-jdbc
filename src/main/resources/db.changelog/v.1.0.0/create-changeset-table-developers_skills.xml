@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet id="create-table-developers_skills" author="erasmatov">
+        <createTable tableName="developers_skills">
+            <column name="developer_id" type="int" autoIncrement="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="skill_id" type="int" autoIncrement="false">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="developer_id"
+                                 baseTableName="developers_skills"
+                                 constraintName="fk_developers_skills_developer_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="developers"/>
+
+        <addForeignKeyConstraint baseColumnNames="skill_id"
+                                 baseTableName="developers_skills"
+                                 constraintName="fk_developers_skills_skill_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="skills"/>
+    </changeSet>
+
+</databaseChangeLog>
