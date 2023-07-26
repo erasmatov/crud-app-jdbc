@@ -6,7 +6,7 @@ import net.erasmatov.crudapp.service.SkillService;
 import java.util.List;
 
 public class SkillController {
-    SkillService skillService = new SkillService();
+    private final SkillService skillService = new SkillService();
 
     public List<Skill> getSkills() {
         return skillService.getSkills();
@@ -27,4 +27,5 @@ public class SkillController {
     public void deleteSkillById(Integer id) {
         skillService.deleteSkillById(id);
     }
+
 }

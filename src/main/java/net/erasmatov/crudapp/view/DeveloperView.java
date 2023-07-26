@@ -8,9 +8,7 @@ import net.erasmatov.crudapp.model.Skill;
 import net.erasmatov.crudapp.model.Specialty;
 import net.erasmatov.crudapp.model.Status;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class DeveloperView {
     private final DeveloperController developerController = new DeveloperController();
@@ -28,7 +26,7 @@ public class DeveloperView {
                     "3. Update Developer\n" +
                     "4. Delete Developer\n" +
                     "5. Display All Developers\n" +
-                    "9. Return to main menu\n" +
+                    "9. Return to Main Menu\n" +
                     "0. Exit program");
             System.out.print("Enter your selection > ");
 
@@ -43,14 +41,12 @@ public class DeveloperView {
 
                     System.out.print("\nLastName: ");
                     String lastName = input.nextLine();
-
                     System.out.println();
-                    showSkillsForDeveloper();
 
                     List<Skill> skills = setSkillsForDeveloper();
 
                     showSpecialtiesForDeveloper();
-                    System.out.print("Select Specialty by id > ");
+                    System.out.print("Select Specialty by ID > ");
                     Integer specialtyId = input.nextInt();
                     Specialty specialty = specialtyController.getSpecialtyById(specialtyId);
 
@@ -59,13 +55,12 @@ public class DeveloperView {
                     createDeveloper.setSkills(skills);
                     createDeveloper.setSpecialty(specialty);
                     createDeveloper.setStatus(Status.ACTIVE);
-
                     developerController.createDeveloper(createDeveloper);
                     System.out.println("\nDeveloper is created: " + createDeveloper);
                     break;
 
                 case 2:
-                    System.out.print("\nEnter Developer's id for search: ");
+                    System.out.print("\nEnter Developer's ID for search: ");
                     Integer developerIdForSearch = input.nextInt();
                     Developer foundDeveloper = developerController.getDeveloperById(developerIdForSearch);
 
@@ -78,23 +73,21 @@ public class DeveloperView {
 
                 case 3:
                     showAllDevelopers();
-                    System.out.print("\nEnter Developer's id for update: ");
+                    System.out.print("\nEnter Developer's ID for update: ");
                     Integer developerIdForUpdate = input.nextInt();
                     Developer updateDeveloper = developerController.getDeveloperById(developerIdForUpdate);
                     input.nextLine();
+
                     System.out.print("\nFirstName: ");
                     String updateFirstName = input.nextLine();
 
                     System.out.print("\nLastName: ");
                     String updateLastName = input.nextLine();
-
                     System.out.println();
-                    showSkillsForDeveloper();
 
                     List<Skill> updateSkills = setSkillsForDeveloper();
-
                     showSpecialtiesForDeveloper();
-                    System.out.print("Select Specialty by id > ");
+                    System.out.print("Select Specialty by ID > ");
                     Integer updateSpecialtyId = input.nextInt();
                     Specialty updateSpecialty = specialtyController.getSpecialtyById(updateSpecialtyId);
 
@@ -106,69 +99,67 @@ public class DeveloperView {
 
                     if (updateDeveloper.getId() != null) {
                         developerController.updateDeveloper(updateDeveloper);
-                        System.out.println("Developer has been updated: " + updateDeveloper);
+                        System.out.println("\nDeveloper has been updated: " + updateDeveloper);
                     } else {
-                        System.out.println("Developer has not been updated.");
+                        System.out.println("\nDeveloper has not been updated.");
                     }
                     break;
 
                 case 4:
                     showAllDevelopers();
-                    System.out.print("\nEnter Developer's id for delete: ");
+                    System.out.print("\nEnter Developer's ID for delete: ");
                     Integer developerIdForDelete = input.nextInt();
                     Developer deleteDeveloper = developerController.getDeveloperById(developerIdForDelete);
 
                     if (deleteDeveloper.getId() != null) {
                         developerController.deleteDeveloperById(developerIdForDelete);
-                        System.out.println("Developer has been deleted: " + deleteDeveloper);
+                        System.out.println("\nDeveloper has been deleted: " + deleteDeveloper);
                     } else {
-                        System.out.println("Developer has not been deleted.");
+                        System.out.println("\nDeveloper has not been deleted.");
                     }
                     break;
 
                 case 5:
-                    System.out.println("\nAll developers:");
                     showAllDevelopers();
                     break;
 
                 case 9:
-                    System.out.println("Return\n");
                     return;
 
                 case 0:
                     System.out.print(
                             "\nThank you for using the program. Goodbye!");
-                    input.close();
                     break;
 
                 default:
-                    System.out.println("Invalid input: " + option + "!\n");
-                    break;
+                    System.out.print("\nInvalid input: " + option + "!\n" +
+                            "Please enter a valid choice...\n");
             }
 
         } while (option != 0);
+        input.close();
         System.exit(0);
     }
 
     private List<Skill> setSkillsForDeveloper() {
+        showSkillsForDeveloper();
         List<Skill> skills = new ArrayList<>();
+
         while (true) {
             if (!skills.isEmpty()) {
                 System.out.println("\n" + skills);
             }
-
-            System.out.print("Select Skills by id, enter 0 to finish. > ");
+            System.out.print("Select Skills by ID, enter 0 to finish. > ");
             int idSkill = input.nextInt();
-
             if (idSkill > 0) {
                 Skill skill = skillController.getSkillById(idSkill);
                 skills.add(skill);
-            }
-            if (idSkill == 0) {
+            } else if (idSkill == 0) {
                 System.out.println("\nSelected skills:\n" + skills + "\n");
                 return skills;
             } else {
-                System.out.println("Invalid input");
+                System.out.print("\nInvalid input: " + idSkill + "!\n" +
+                        "Please enter a valid choice...\n");
             }
         }
     }
@@ -188,9 +179,11 @@ public class DeveloperView {
     }
 
     private void showAllDevelopers() {
+        System.out.print("\nAll Developers: ");
         List<Developer> developersList = developerController.getAllDevelopers();
         for (Developer developer : developersList) {
             System.out.println(developer);
         }
     }
+
 }

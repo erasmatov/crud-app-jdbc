@@ -6,7 +6,7 @@ import net.erasmatov.crudapp.service.SpecialtyService;
 import java.util.List;
 
 public class SpecialtyController {
-    SpecialtyService specialtyService = new SpecialtyService();
+    private final SpecialtyService specialtyService = new SpecialtyService();
 
     public List<Specialty> getSpecialties() {
         return specialtyService.getSpecialties();

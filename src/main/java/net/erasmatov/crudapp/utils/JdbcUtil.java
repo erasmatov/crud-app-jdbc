@@ -6,14 +6,13 @@ import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
 
-public class JdbcUtils {
+public class JdbcUtil {
     private static Connection connection = null;
 
-    private JdbcUtils() {
+    private JdbcUtil() {
     }
 
-    private static Connection getJdbcMysqlConnection() {
-
+    public static Connection getJdbcMysqlConnection() {
         if (connection == null) {
             final Properties PROPERTIES = new Properties();
 
@@ -56,4 +55,5 @@ public class JdbcUtils {
             return null;
         }
     }
+
 }

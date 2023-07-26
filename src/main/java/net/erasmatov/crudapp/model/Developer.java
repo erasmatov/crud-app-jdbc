@@ -95,4 +95,5 @@ public class Developer {
                 ", status=" + status +
                 '}';
     }
+
 }

@@ -21,7 +21,7 @@ public class SpecialtyView {
                     "3. Update Specialty\n" +
                     "4. Delete Specialty\n" +
                     "5. Display All Specialties\n" +
-                    "9. Return to main menu\n" +
+                    "9. Return to Main Menu\n" +
                     "0. Exit program");
             System.out.print("Enter your selection > ");
 
@@ -33,7 +33,6 @@ public class SpecialtyView {
                     Specialty createSpecialty = new Specialty();
                     System.out.print("\nSpecialty Name: ");
                     String specialtyName = input.nextLine();
-
                     createSpecialty.setName(specialtyName);
                     createSpecialty.setStatus(Status.ACTIVE);
 
@@ -42,20 +41,21 @@ public class SpecialtyView {
                     break;
 
                 case 2:
-                    System.out.print("\nEnter Specialty's id for search: ");
+                    System.out.print("\nEnter Specialty's ID for search: ");
                     Integer specialtyIdForSearch = input.nextInt();
                     Specialty foundSpecialty = specialtyController.getSpecialtyById(specialtyIdForSearch);
+
                     if (foundSpecialty.getId() != null) {
-                        System.out.println("Specialty has been found: " + foundSpecialty);
+                        System.out.println("\nSpecialty has been found: " + foundSpecialty);
                     } else {
-                        System.out.println("Specialty has not been found.");
+                        System.out.println("\nSpecialty has not been found.");
                     }
                     break;
 
                 case 3:
                     System.out.println();
                     showAllSpecialties();
-                    System.out.print("\nEnter Specialty's id for update: ");
+                    System.out.print("\nEnter Specialty's ID for update: ");
                     Integer specialtyIdForUpdate = input.nextInt();
                     Specialty updateSpecialty = specialtyController.getSpecialtyById(specialtyIdForUpdate);
                     input.nextLine();
@@ -67,53 +67,53 @@ public class SpecialtyView {
 
                     if (updateSpecialty.getId() != null) {
                         specialtyController.updateSpecialty(updateSpecialty);
-                        System.out.println("Specialty has been updated: " + updateSpecialty);
+                        System.out.println("\nSpecialty has been updated: " + updateSpecialty);
                     } else {
-                        System.out.println("Specialty has not been updated.");
+                        System.out.println("\nSpecialty has not been updated.");
                     }
                     break;
 
                 case 4:
                     showAllSpecialties();
-                    System.out.print("\nEnter Specialty's id for delete: ");
+                    System.out.print("\nEnter Specialty's ID for delete: ");
                     Integer specialtyIdForDelete = input.nextInt();
                     Specialty deleteSpecialty = specialtyController.getSpecialtyById(specialtyIdForDelete);
+
                     if (deleteSpecialty.getId() != null) {
                         specialtyController.deleteSpecialtyById(specialtyIdForDelete);
-                        System.out.println("Specialty has been deleted: " + deleteSpecialty);
+                        System.out.println("\nSpecialty has been deleted: " + deleteSpecialty);
                     } else {
-                        System.out.println("Specialty has not been deleted.");
+                        System.out.println("\nSpecialty has not been deleted.");
                     }
                     break;
 
                 case 5:
-                    System.out.println("\nAll specialties:");
                     showAllSpecialties();
                     break;
 
                 case 9:
-                    System.out.println();
                     return;
 
                 case 0:
                     System.out.print(
                             "\nThank you for using the program. Goodbye!");
-                    input.close();
                     break;
 
                 default:
-                    System.out.println("Invalid input: " + option + "!\n");
-                    break;
+                    System.out.print("\nInvalid input: " + option + "!\n" +
+                            "Please enter a valid choice...\n");
             }
-
         } while (option != 0);
+        input.close();
         System.exit(0);
     }
 
     private void showAllSpecialties() {
+        System.out.println("\nAll Specialties: ");
         List<Specialty> specilatyList = specialtyController.getSpecialties();
         for (Specialty specialty : specilatyList) {
             System.out.println(specialty);
         }
     }
+
 }

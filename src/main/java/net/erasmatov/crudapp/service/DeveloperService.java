@@ -7,7 +7,7 @@ import net.erasmatov.crudapp.repository.jdbc.JdbcDeveloperRepositoryImpl;
 import java.util.List;
 
 public class DeveloperService {
-    DeveloperRepository developerRepository = new JdbcDeveloperRepositoryImpl();
+    private final DeveloperRepository developerRepository = new JdbcDeveloperRepositoryImpl();
 
     public List<Developer> getAllDevelopers() {
         return developerRepository.getAll();

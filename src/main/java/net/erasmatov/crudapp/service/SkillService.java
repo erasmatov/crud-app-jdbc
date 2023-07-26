@@ -7,7 +7,7 @@ import net.erasmatov.crudapp.repository.jdbc.JdbcSkillRepositoryImpl;
 import java.util.List;
 
 public class SkillService {
-    SkillRepository skillRepository = new JdbcSkillRepositoryImpl();
+    private final SkillRepository skillRepository = new JdbcSkillRepositoryImpl();
 
     public List<Skill> getSkills() {
         return skillRepository.getAll();
@@ -28,4 +28,5 @@ public class SkillService {
     public void deleteSkillById(Integer id) {
         skillRepository.deleteById(id);
     }
+
 }

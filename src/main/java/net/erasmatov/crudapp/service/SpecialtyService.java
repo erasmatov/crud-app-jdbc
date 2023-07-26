@@ -7,7 +7,7 @@ import net.erasmatov.crudapp.repository.jdbc.JdbcSpecialtyRepositoryImpl;
 import java.util.List;
 
 public class SpecialtyService {
-    SpecialtyRepository specialtyRepository = new JdbcSpecialtyRepositoryImpl();
+    private final SpecialtyRepository specialtyRepository = new JdbcSpecialtyRepositoryImpl();
 
     public List<Specialty> getSpecialties() {
         return specialtyRepository.getAll();

@@ -3,46 +3,56 @@ package net.erasmatov.crudapp.view;
 import java.util.Scanner;
 
 public class MainView {
+    private final DeveloperView developerView;
+    private final SkillView skillView;
+    private final SpecialtyView specialtyView;
     private final Scanner input = new Scanner(System.in);
+
+    public MainView() {
+        developerView = new DeveloperView();
+        skillView = new SkillView();
+        specialtyView = new SpecialtyView();
+    }
 
     public void showMainMenu() {
         int option;
 
         do {
-            System.out.println("MAIN MENU:\n" +
+            System.out.print("\nMAIN MENU:\n" +
                     "1. Developer\n" +
                     "2. Skill\n" +
                     "3. Specialty\n" +
-                    "0. Exit program");
-            System.out.print("Enter your selection > ");
+                    "0. Exit Program");
+            System.out.print("\nEnter your selection > ");
 
             option = input.nextInt();
             input.nextLine();
 
             switch (option) {
                 case 1:
-                    new DeveloperView().showDeveloperMenu();
+                    developerView.showDeveloperMenu();
                     break;
 
                 case 2:
-                    new SkillView().showSkillMenu();
+                    skillView.showSkillMenu();
                     break;
 
                 case 3:
-                    new SpecialtyView().showSpecialtyMenu();
+                    specialtyView.showSpecialtyMenu();
                     break;
 
                 case 0:
                     System.out.print(
                             "\nThank you for using the program. Goodbye!");
-                    input.close();
                     break;
 
                 default:
-                    System.out.println("Invalid input: " + option + "!\n");
-                    break;
+                    System.out.print("\nInvalid input: " + option + "!\n" +
+                            "Please enter a valid choice...\n");
             }
         } while (option != 0);
+        input.close();
         System.exit(0);
     }
+
 }

@@ -46,4 +46,5 @@ public class Skill {
                 ", status=" + status +
                 '}';
     }
+
 }
