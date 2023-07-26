@@ -1,27 +1,35 @@
 package net.erasmatov.crudapp.utils;
 
-import liquibase.command.CommandScope;
-import liquibase.command.core.UpdateCommandStep;
-import liquibase.command.core.helpers.DbUrlConnectionCommandStep;
+import liquibase.Liquibase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
-import liquibase.exception.LiquibaseException;
+import liquibase.resource.ClassLoaderResourceAccessor;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 
 public class LiquibaseUtil {
     public static void liquibaseMigrate() {
         try {
-            Connection connection = JdbcUtil.getJdbcMysqlConnection();
+            Class.forName("com.mysql.cj.jdbc.Driver");
 
-            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
-            CommandScope updateCommand = new CommandScope(UpdateCommandStep.COMMAND_NAME);
-            updateCommand.addArgumentValue(DbUrlConnectionCommandStep.DATABASE_ARG, database);
-            updateCommand.addArgumentValue(UpdateCommandStep.CHANGELOG_FILE_ARG, "db/changelog/changelog-main.xml");
-            updateCommand.execute();
-        } catch (LiquibaseException e) {
-            throw new RuntimeException(e);
+            String url = "jdbc:mysql://localhost:3306/database22";
+            String username = "root";
+            String password = "password";
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            Database database = DatabaseFactory.getInstance()
+                    .findCorrectDatabaseImplementation(new JdbcConnection(connection));
+
+            Liquibase liquibase = new Liquibase("db/changelog/changelog-main.xml",
+                    new ClassLoaderResourceAccessor(), database);
+
+            liquibase.update("");
+
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
