@@ -179,7 +179,7 @@ public class DeveloperView {
     }
 
     private void showAllDevelopers() {
-        System.out.print("\nAll Developers: ");
+        System.out.print("\nAll Developers: \n");
         List<Developer> developersList = developerController.getAllDevelopers();
         for (Developer developer : developersList) {
             System.out.println(developer);

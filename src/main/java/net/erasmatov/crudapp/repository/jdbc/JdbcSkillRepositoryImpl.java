@@ -17,7 +17,6 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
             Status status = Status.valueOf(resultSet.getString("status"));
-
             return new Skill(id, name, status);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -28,17 +27,13 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
     @Override
     public List<Skill> getAll() {
         final String SQL_GET_ALL_SKILLS = "SELECT * FROM skills;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_GET_ALL_SKILLS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-
             List<Skill> skillList = new ArrayList<>();
-
             while (resultSet.next()) {
                 skillList.add(mapResultSetToSkill(resultSet));
             }
             return skillList;
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;
@@ -48,18 +43,14 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
     @Override
     public Skill getById(Integer id) {
         final String SQL_GET_SKILL_BY_ID = "SELECT * FROM skills WHERE id = ?;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_GET_SKILL_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             Skill skill = new Skill();
-
             if (resultSet.next()) {
                 skill = mapResultSetToSkill(resultSet);
             }
             return skill;
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
             return null;
@@ -69,11 +60,9 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
     @Override
     public void deleteById(Integer id) {
         final String SQL_UPDATE_SKILL_STATUS = "UPDATE skills SET status = 'DELETED' WHERE id = ?;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_UPDATE_SKILL_STATUS)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -82,11 +71,9 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
     @Override
     public Skill save(Skill skill) {
         final String SQL_SAVE_SKILL = "INSERT INTO skills (name, status) values (?, ?);";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatementWithKeys(SQL_SAVE_SKILL)) {
             preparedStatement.setString(1, skill.getName());
             preparedStatement.setString(2, skill.getStatus().toString());
-
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating skill failed, no rows affected.");
@@ -100,7 +87,6 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
                 }
             }
             return skill;
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -108,19 +94,15 @@ public class JdbcSkillRepositoryImpl implements SkillRepository {
 
     @Override
     public Skill update(Skill skill) {
-
         final String SQL_UPDATE_SKILL = "UPDATE skills SET name = ?, status = ? WHERE id = ?;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_UPDATE_SKILL)) {
             preparedStatement.setString(1, skill.getName());
             preparedStatement.setString(2, skill.getStatus().toString());
             preparedStatement.setInt(3, skill.getId());
             preparedStatement.executeUpdate();
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
-
         return skill;
     }
 

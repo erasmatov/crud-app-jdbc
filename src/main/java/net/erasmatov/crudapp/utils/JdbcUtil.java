@@ -15,23 +15,13 @@ public class JdbcUtil {
     public static Connection getJdbcMysqlConnection() {
         if (connection == null) {
             final Properties PROPERTIES = new Properties();
-
-            String URL = null;
-            String USERNAME = null;
-            String PASSWORD = null;
-
             try (InputStream fileInputStream = new FileInputStream("src/main/resources/application.properties")) {
                 PROPERTIES.load(fileInputStream);
-                URL = PROPERTIES.getProperty("url");
-                USERNAME = PROPERTIES.getProperty("username");
-                PASSWORD = PROPERTIES.getProperty("password");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            try {
+                String URL = PROPERTIES.getProperty("url");
+                String USERNAME = PROPERTIES.getProperty("username");
+                String PASSWORD = PROPERTIES.getProperty("password");
                 connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
-            } catch (SQLException e) {
+            } catch (IOException | SQLException e) {
                 e.printStackTrace();
             }
         }

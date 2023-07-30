@@ -110,7 +110,7 @@ public class SkillView {
     }
 
     private void showAllSkills() {
-        System.out.print("\nAll Skills: ");
+        System.out.print("\nAll Skills: \n");
         List<Skill> skillList = skillController.getSkills();
         for (Skill skill : skillList) {
             System.out.println(skill);

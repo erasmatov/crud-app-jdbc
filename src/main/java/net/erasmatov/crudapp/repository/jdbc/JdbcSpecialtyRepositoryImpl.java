@@ -17,9 +17,7 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
             int id = resultSet.getInt("id");
             String name = resultSet.getString("name");
             Status status = Status.valueOf(resultSet.getString("status"));
-
             return new Specialty(id, name, status);
-
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -29,12 +27,9 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
     @Override
     public List<Specialty> getAll() {
         final String SQL_GET_ALL_SPECIALTIES = "SELECT * FROM specialties;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_GET_ALL_SPECIALTIES)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-
             List<Specialty> specialtiesList = new ArrayList<>();
-
             while (resultSet.next()) {
                 specialtiesList.add(mapResultSetToSpecialty(resultSet));
             }
@@ -49,11 +44,9 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
     @Override
     public Specialty getById(Integer id) {
         final String SQL_GET_SPECIALTY_BY_ID = "SELECT * FROM specialties WHERE id = ?;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_GET_SPECIALTY_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             Specialty specialty = new Specialty();
 
             if (resultSet.next()) {
@@ -69,11 +62,9 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
     @Override
     public void deleteById(Integer id) {
         final String SQL_UPDATE_SPECIALTY_STATUS = "UPDATE specialties SET status = 'DELETED' WHERE id = ?;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_UPDATE_SPECIALTY_STATUS)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -83,11 +74,9 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
     public Specialty save(Specialty specialty) {
         final String SQL_SAVE_SPECIALTY =
                 "INSERT INTO specialties (name, status) values (?, ?);";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatementWithKeys(SQL_SAVE_SPECIALTY)) {
             preparedStatement.setString(1, specialty.getName());
             preparedStatement.setString(2, specialty.getStatus().toString());
-
             int affectedRows = preparedStatement.executeUpdate();
             if (affectedRows == 0) {
                 throw new SQLException("Creating specialty failed, no rows affected.");
@@ -101,7 +90,6 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
                 }
             }
             return specialty;
-
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -110,13 +98,11 @@ public class JdbcSpecialtyRepositoryImpl implements SpecialtyRepository {
     @Override
     public Specialty update(Specialty specialty) {
         final String SQL_UPDATE_SPECIALTY = "UPDATE specialties SET name = ?, status = ? WHERE id = ?;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_UPDATE_SPECIALTY)) {
             preparedStatement.setString(1, specialty.getName());
             preparedStatement.setString(2, specialty.getStatus().toString());
             preparedStatement.setInt(3, specialty.getId());
             preparedStatement.executeUpdate();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

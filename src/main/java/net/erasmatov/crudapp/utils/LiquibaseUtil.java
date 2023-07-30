@@ -1,35 +1,45 @@
 package net.erasmatov.crudapp.utils;
 
-import liquibase.Liquibase;
+import liquibase.command.CommandScope;
+import liquibase.command.core.UpdateCommandStep;
+import liquibase.command.core.helpers.DbUrlConnectionCommandStep;
 import liquibase.database.Database;
 import liquibase.database.DatabaseFactory;
 import liquibase.database.jvm.JdbcConnection;
-import liquibase.resource.ClassLoaderResourceAccessor;
+import liquibase.exception.LiquibaseException;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
 
 public class LiquibaseUtil {
     public static void liquibaseMigrate() {
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
+        final Properties PROPERTIES = new Properties();
+        final Connection connection;
 
-            String url = "jdbc:mysql://localhost:3306/database22";
-            String username = "root";
-            String password = "password";
-            Connection connection = DriverManager.getConnection(url, username, password);
+        String URL;
+        String USERNAME;
+        String PASSWORD;
 
-            Database database = DatabaseFactory.getInstance()
-                    .findCorrectDatabaseImplementation(new JdbcConnection(connection));
+        try (InputStream fileInputStream = new FileInputStream("src/main/resources/application.properties")) {
+            PROPERTIES.load(fileInputStream);
+            URL = PROPERTIES.getProperty("url");
+            USERNAME = PROPERTIES.getProperty("username");
+            PASSWORD = PROPERTIES.getProperty("password");
 
-            Liquibase liquibase = new Liquibase("db/changelog/changelog-main.xml",
-                    new ClassLoaderResourceAccessor(), database);
+            connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
 
-            liquibase.update("");
-
-            connection.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+            Database database = DatabaseFactory.getInstance().findCorrectDatabaseImplementation(new JdbcConnection(connection));
+            CommandScope updateCommand = new CommandScope(UpdateCommandStep.COMMAND_NAME);
+            updateCommand.addArgumentValue(DbUrlConnectionCommandStep.DATABASE_ARG, database);
+            updateCommand.addArgumentValue(UpdateCommandStep.CHANGELOG_FILE_ARG, "db/changelog/changelog-main.xml");
+            updateCommand.execute();
+        } catch (LiquibaseException | IOException | SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 

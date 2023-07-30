@@ -9,9 +9,9 @@ public class MainView {
     private final Scanner input = new Scanner(System.in);
 
     public MainView() {
-        developerView = new DeveloperView();
-        skillView = new SkillView();
-        specialtyView = new SpecialtyView();
+        this.developerView = new DeveloperView();
+        this.skillView = new SkillView();
+        this.specialtyView = new SpecialtyView();
     }
 
     public void showMainMenu() {

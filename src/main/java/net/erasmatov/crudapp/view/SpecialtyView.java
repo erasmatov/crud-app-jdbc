@@ -109,7 +109,7 @@ public class SpecialtyView {
     }
 
     private void showAllSpecialties() {
-        System.out.println("\nAll Specialties: ");
+        System.out.print("\nAll Specialties: \n");
         List<Specialty> specilatyList = specialtyController.getSpecialties();
         for (Specialty specialty : specilatyList) {
             System.out.println(specialty);

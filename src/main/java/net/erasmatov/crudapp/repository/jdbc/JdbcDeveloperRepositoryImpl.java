@@ -19,7 +19,6 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
     private void removeSkillsForUpdateDeveloper(Integer developerId) {
         final String SQL_REMOVE_SKILLS_BY_ID_DEVELOPER =
                 "DELETE FROM developers_skills WHERE developer_id = ?;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_REMOVE_SKILLS_BY_ID_DEVELOPER)) {
             preparedStatement.setInt(1, developerId);
             preparedStatement.executeUpdate();
@@ -31,7 +30,6 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
     private List<Skill> saveSkillsForDeveloper(Integer developerId, List<Skill> skillList) {
         final String SQL_SAVE_DEVELOPER_SKILLS =
                 "INSERT INTO developers_skills (developer_id, skill_id) values (?, ?)";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_SAVE_DEVELOPER_SKILLS)) {
             for (Skill skill : skillList) {
                 preparedStatement.setInt(1, developerId);
@@ -94,9 +92,7 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
 
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_GET_ALL_DEVELOPERS)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-
             Map<Integer, Developer> developersMap = new HashMap<>();
-
             while (resultSet.next()) {
                 Developer developer = mapResultSetToDeveloper(resultSet);
 
@@ -112,7 +108,6 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
                 }
             }
             return new ArrayList<>(developersMap.values());
-
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -134,9 +129,7 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_GET_DEVELOPER_BY_ID)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-
             Developer developer = new Developer();
-
             if (resultSet.next()) {
                 developer = mapResultSetToDeveloper(resultSet);
             }
@@ -151,7 +144,6 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
     public void deleteById(Integer id) {
         final String SQL_UPDATE_DEVELOPER_STATUS =
                 "UPDATE developers SET status = 'DELETED' WHERE id = ?;";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_UPDATE_DEVELOPER_STATUS)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
@@ -164,7 +156,6 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
     public Developer save(Developer developer) {
         final String SQL_SAVE_DEVELOPER =
                 "INSERT INTO developers (first_name, last_name, status, specialty_id) values (?, ?, ?, ?);";
-
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatementWithKeys(SQL_SAVE_DEVELOPER)) {
             preparedStatement.setString(1, developer.getFirstName());
             preparedStatement.setString(2, developer.getLastName());
@@ -193,9 +184,7 @@ public class JdbcDeveloperRepositoryImpl implements DeveloperRepository {
     @Override
     public Developer update(Developer developer) {
         final String SQL_UPDATE_DEVELOPER =
-                "UPDATE developers SET first_name = ?, last_name = ?, status = ?, specialty_id = ? " +
-                        "WHERE id = ?;";
-
+                "UPDATE developers SET first_name = ?, last_name = ?, status = ?, specialty_id = ? WHERE id = ?;";
         try (PreparedStatement preparedStatement = JdbcUtil.getPreparedStatement(SQL_UPDATE_DEVELOPER)) {
             preparedStatement.setString(1, developer.getFirstName());
             preparedStatement.setString(2, developer.getLastName());
