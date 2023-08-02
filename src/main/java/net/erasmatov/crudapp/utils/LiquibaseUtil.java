@@ -38,6 +38,7 @@ public class LiquibaseUtil {
             updateCommand.addArgumentValue(DbUrlConnectionCommandStep.DATABASE_ARG, database);
             updateCommand.addArgumentValue(UpdateCommandStep.CHANGELOG_FILE_ARG, "db/changelog/changelog-main.xml");
             updateCommand.execute();
+            connection.close();
         } catch (LiquibaseException | IOException | SQLException e) {
             throw new RuntimeException(e);
         }
